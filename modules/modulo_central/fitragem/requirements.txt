@@ -1,2 +1,4 @@
 paho-mqtt==1.6.1
 pyserial==3.5
+adafruit-circuitpython-mcp4725==1.4.5
+RPi.GPIO==0.7.1 

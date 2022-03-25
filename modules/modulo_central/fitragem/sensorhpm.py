@@ -4,18 +4,18 @@
 import random
 import serial, time
 from time import localtime, strftime
-from paho.mqtt import client as mqtt_client
+from utils import connect_mqtt
 
 
 port = serial.Serial("/dev/serial0", baudrate=9600, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, timeout=1.5)
 
 broker = 'broker-url'
-port = 1883
+mqtt_port = 1883
 topic = "rasp/pm10"
-client_id = f'python-mqtt-{random.randint(0, 1000)}'
+client_id = f'modulo-central-sensor-{random.randint(0, 1000)}'
 
 def main():
-    client = connect_mqtt()
+    client = connect_mqtt(client_id, broker, mqtt_port)
     if port.isOpen():
         port.close()
     port.open()
@@ -33,18 +33,6 @@ def main():
         print(ex)
     finally:
         port.close()
-        
-def connect_mqtt():
-    #def on_connect(client, userdata, flags, rc):
-       # if rc == 0:
-       #     print("Connected to MQTT Broker!")
-        #else:
-        #    print("Failed to connect, return code %d\n", rc)
-    client = mqtt_client.Client(client_id)
-    #client.username_pw_set(username, password)
-    #client.on_connect = on_connect
-    client.connect(broker, port)
-    return client
 
 def publish(client, msg, tries=1):
     time.sleep(1)
