@@ -9,6 +9,7 @@
 #include <MiCS6814-I2C.h>
 #include "DGS.h"
 #include "Adafruit_CCS811.h"
+#include <esp_sleep.h>
 
 const char* ssid = "REPLACE_WITH_YOUR_SSID";
 const char* password = "REPLACE_WITH_YOUR_PASSWORD";
@@ -182,4 +183,6 @@ void loop() {
   read_mics_6814();
   read_dgs();
   read_ccs_811();
+  esp_sleep_enable_timer_wakeup(50 * 1000 * 1000); //sleep time in us
+  esp_deep_sleep_start();
 }
